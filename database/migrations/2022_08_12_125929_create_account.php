@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateAccount extends Migration
 {
     /**
      * Run the migrations.
@@ -14,23 +14,26 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::enableForeignKeyConstraints();
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('username')->nullable();
-            $table->string('phone_number');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('account_no')->unique();
+            $table->unsignedBigInteger('account_type_id');
+            $table->unsignedBigInteger('account_balance');
 
-            $table->foreign('role_id')
+
+            $table->foreign('user_id')
                     ->references('id')
-                    ->on('roles')
+                    ->on('users')
+                    ->onDelete('cascade');
+
+            $table->foreign('account_type_id')
+                    ->references('id')
+                    ->on('account_types')
                     ->onDelete('cascade');
 
             $table->timestamps();
+
         });
     }
 
@@ -42,6 +45,5 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('accounts');
-        Schema::dropIfExists('users');
     }
 }
