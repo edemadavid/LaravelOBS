@@ -14,6 +14,9 @@ class Account extends Model
      *
      * @var array<int, string>
      */
+    protected $table = 'accounts';
+
+    protected $primarykey = 'id';
 
     protected $fillable = [
         'user_id',
@@ -21,4 +24,15 @@ class Account extends Model
         'account_type_id',
         'account_balance'
     ];
+
+
+    public function userIdModel ()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function accountTypeModel ()
+    {
+        return $this->belongsto(AccountType::class);
+    }
 }

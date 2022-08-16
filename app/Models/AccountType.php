@@ -18,4 +18,10 @@ class AccountType extends Model
     protected $fillable = [
         'name',
     ];
+
+
+    public function accountTypeIdModel ()
+    {
+        return $this->hasMany(Account::class);
+    }
 }
